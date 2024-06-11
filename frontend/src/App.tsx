@@ -1,8 +1,10 @@
 import { ComponentProps, useState } from 'react';
 import { cn } from './utils/cn';
 
+const DOMAIN = import.meta.env.VITE_BACKEND_URL;
+
 const getZodiacSign = async (day: number, month: number) => {
-  const response = await fetch(`http://localhost:3000/${day}/${month}`);
+  const response = await fetch(`${DOMAIN}/${day}/${month}`);
   const data = await response.json();
   return data.sign;
 };
@@ -23,7 +25,7 @@ const AllDays = ({ day, setDay }: { day: string; setDay: (d: string) => void }) 
   });
   return (
     <div>
-        <div className='text-left py-4'>
+        <div className='py-4 text-left'>
       <h3 className='text-xl '>Dia</h3>
       <p>Seleccione el dia de su Nacimiento</p>
         </div>
@@ -72,7 +74,7 @@ const AllMonths = ({ month, setMonth }: { month: string; setMonth: (d: string) =
   });
   return (
     <div>
-        <div className='text-left py-4'>
+        <div className='py-4 text-left'>
       <h3 className='text-xl '>Mes</h3>
       <p>Seleccione el mes de su Nacimiento</p>
         </div>
@@ -120,11 +122,11 @@ const App = () => {
   return (
     <div className='w-full h-screen overflow-hidden bg-slate-50'>
       <div className='max-w-screen-sm mx-auto sm:mt-[4rem] text-center bg-white p-8 shadow-xl'>
-        <h1 className='text-2xl font-semibold upp pt-8'>Tu Signo Zodiacal</h1>
+        <h1 className='pt-8 text-2xl font-semibold upp'>Tu Signo Zodiacal</h1>
         <div className='space-y-4'>
           <AllDays day={day} setDay={setDay} />
           {/* <input
-            className='block px-4 py-2 w-full border border-slate-600 rounded-md'
+            className='block w-full px-4 py-2 border rounded-md border-slate-600'
             disabled={loading}
             type='number'
             placeholder='Day'
@@ -133,7 +135,7 @@ const App = () => {
           /> */}
           <AllMonths month={month} setMonth={setMonth} />
           {/* <input
-            className='block px-4 py-2 w-full border border-slate-600 rounded-md'
+            className='block w-full px-4 py-2 border rounded-md border-slate-600'
             disabled={loading}
             type='number'
             placeholder='Month'
@@ -142,15 +144,15 @@ const App = () => {
           /> */}
           <button
             disabled={loading}
-            className='px-4 py-2 bg-blue-700 text-white w-full rounded-md'
+            className='w-full px-4 py-2 text-white bg-blue-700 rounded-md'
             onClick={() => handleSubmit(parseInt(day), parseInt(month))}
           >
             Submit
           </button>
         </div>
       </div>
-      <div className='font-semibold max-w-screen-sm mx-auto text-center'>
-      {loading ? <h1 className='text-2xl p-8'>Loading...</h1> : <h1 className='text-2xl p-8'>{sign}</h1>}
+      <div className='max-w-screen-sm mx-auto font-semibold text-center'>
+      {loading ? <h1 className='p-8 text-2xl'>Loading...</h1> : <h1 className='p-8 text-2xl'>{sign}</h1>}
       </div>
     </div>
   );
