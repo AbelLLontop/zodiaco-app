@@ -16,7 +16,7 @@ const Month = ({ monthValue, ...props }: ComponentProps<'div'> & { monthValue: s
   return <div {...props}>{monthValue}</div>;
 };
 const AllDays = ({ day, setDay }: { day: string; setDay: (d: string) => void }) => {
-  const days = Array.from({ length: 31 }, (v, i) => {
+  const days = Array.from({ length: 31 }, (_, i) => {
     if (i < 9) {
       return '0' + (i + 1).toString();
     } else {
@@ -49,7 +49,7 @@ const AllDays = ({ day, setDay }: { day: string; setDay: (d: string) => void }) 
     </div>
   );
 };
-const MESES = {
+const MESES: { [key: number]: string } = {
     1: 'Enero',
     2: 'Febrero',
     3: 'Marzo',
@@ -62,10 +62,10 @@ const MESES = {
     10: 'Octubre',
     11: 'Noviembre',
     12: 'Diciembre'
-    };
+};
 
 const AllMonths = ({ month, setMonth }: { month: string; setMonth: (d: string) => void }) => {
-  const months = Array.from({ length: 12 }, (v, i) => {
+  const months = Array.from({ length: 12 }, (_, i) => {
     if (i < 9) {
       return '0' + (i + 1).toString();
     } else {
@@ -80,17 +80,18 @@ const AllMonths = ({ month, setMonth }: { month: string; setMonth: (d: string) =
         </div>
       <div className='flex flex-wrap gap-2'>
         {months.map((m) => {
+          const monthValue = MESES[parseInt(m)]
           return (
             <Month
               onClick={() => setMonth(m)}
               className={cn(
-                'bg-gray-100 p-2 w-10 h-10 rounded-md flex-shrink-0 cursor-pointer hover:border-blue-600 border w-fit',
+                'bg-gray-100 p-2 h-10 rounded-md flex-shrink-0 cursor-pointer hover:border-blue-600 border w-fit',
                 {
                   'bg-blue-700 text-white': m === month
                 }
               )}
               key={m}
-              monthValue={MESES[parseInt(m)]}
+              monthValue={monthValue}
             />
           );
         })}
